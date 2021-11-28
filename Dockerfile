@@ -12,4 +12,4 @@ ENV PORT=8000
 
 EXPOSE 8000
 
-CMD [ "python", "app/stream_direct_link.py"]
+CMD [ "python", "./app/stream_direct_link.py"]
