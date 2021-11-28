@@ -9,6 +9,8 @@ from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 
@@ -51,8 +53,10 @@ options.add_argument("--headless")
 options.add_argument("--incognito")
 options.headless = True
 
-CHROME_BROWSER = webdriver.Chrome(
-    executable_path=PATH_TO_CHROME_DRIVER, options=options)
+selenium_service = Service(PATH_TO_CHROME_DRIVER)
+
+CHROME_BROWSER = webdriver.Chrome(options=options, service=selenium_service)
+
 
 # =============================================================
 

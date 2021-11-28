@@ -1,6 +1,7 @@
 requests
 BeautifulSoup4
 selenium
+webdriver-manager
 fastapi
 Jinja2
 python-multipart
