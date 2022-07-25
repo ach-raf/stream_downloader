@@ -1,0 +1,1 @@
+*/2 * * * * /root/programming/stream_downloader/app/goals_archive/vps_script.sh

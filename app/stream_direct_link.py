@@ -3,7 +3,7 @@ import json
 import os
 import time
 import requests
-import uvicorn
+
 
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
@@ -11,8 +11,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from fastapi import FastAPI, Request, Form
-from fastapi.templating import Jinja2Templates
 
 
 def read_info_file(file_path):
@@ -26,11 +24,13 @@ def read_info_file(file_path):
     """
     config = configparser.ConfigParser()
     config.read(file_path)
-    credentials = []
+    credentials = {}
     for section in config.sections():
+        temp_creds_dict = {}
         for key in config[section]:
-            # print(f'{key} = {config[section][key]}')
-            credentials.append(config[section][key])
+            #print(f'{key} = {config[section][key]}')
+            temp_creds_dict[key] = config[section][key]
+        credentials[section] = temp_creds_dict
     return credentials
 
 
@@ -38,40 +38,55 @@ def read_info_file(file_path):
 CURRENT_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 CONFIG_PATH = os.path.join(CURRENT_DIR_PATH, 'config', 'info.ini')
 CONFIG_INFO = read_info_file(CONFIG_PATH)
-STREAMJA = CONFIG_INFO[0]
-STREAMYE = CONFIG_INFO[1]
-STREAMVI = CONFIG_INFO[2]
+CONFIG_INFO = CONFIG_INFO['STREAM_REGEX']
+
 # =================================================================================================
-
-
 # =================== SELENIUM CONFIGURATION ===================
 PATH_TO_CHROME_DRIVER = os.path.join(
-    CURRENT_DIR_PATH, 'chromedriver', 'chromedriver.exe')
+    CURRENT_DIR_PATH, 'chromedriver', 'chromedriver')
 # options for selenium
-options = Options()
-options.add_argument("--headless")
-options.add_argument("--incognito")
-options.headless = True
+# CHROME_OPTIONS for selenium
+CHROME_OPTIONS = Options()
+CHROME_OPTIONS.add_argument('--headless')
+CHROME_OPTIONS.add_argument("--incognito")
+CHROME_OPTIONS.add_argument("--no-sandbox")
+CHROME_OPTIONS.add_argument("--disable-crash-reporter")
+CHROME_OPTIONS.add_argument("--disable-extensions")
+CHROME_OPTIONS.add_argument("--disable-in-process-stack-traces")
+CHROME_OPTIONS.add_argument("--disable-logging")
+CHROME_OPTIONS.add_argument("--disable-dev-shm-usage")
+CHROME_OPTIONS.add_argument("--log-level=3")
+CHROME_OPTIONS.add_argument("--output=/dev/null")
+CHROME_OPTIONS.add_argument("--disable-gpu")
+CHROME_OPTIONS.add_argument("--disable-features=NetworkService")
+CHROME_OPTIONS.add_argument("--window-size=1280x720")
+CHROME_OPTIONS.add_argument("--disable-features=VizDisplayCompositor")
+CHROME_OPTIONS.add_argument("--enable-features=NetworkService")
+CHROME_OPTIONS.add_argument("--NetworkServiceInProcess")
 
-selenium_service = Service(PATH_TO_CHROME_DRIVER)
+#chrome_options.headless = True
 
-CHROME_BROWSER = webdriver.Chrome(options=options, service=selenium_service)
+SELENIUM_SERVICE = Service(PATH_TO_CHROME_DRIVER)
 
 
 # =============================================================
 
 
 def selenium_soup(_url):
+    CHROME_BROWSER = webdriver.Chrome(
+        options=CHROME_OPTIONS, service=SELENIUM_SERVICE)
+
     CHROME_BROWSER.get(_url)
-    CHROME_BROWSER.minimize_window()
     # sleep to let the page load
     time.sleep(0.5)
     _html = CHROME_BROWSER.page_source
+    CHROME_BROWSER.close()
+    CHROME_BROWSER.quit()
     return BeautifulSoup(_html, 'html.parser')
 
 
 def beautiful_soup(_url):
-    time.sleep(0.5)
+    time.sleep(0.1)
     _html = requests.get(_url).content
     return BeautifulSoup(_html, 'html.parser')
 
@@ -85,22 +100,40 @@ def get_soup(_url):
 
 def default_video_source(_url, _soup):
     _site_name = urlparse(_url)
-    _site_name = str(_site_name.netloc)[:-4]
+
+    if 'www' not in str(_site_name.netloc):
+        _site_name = str(_site_name.netloc).split('.')[0]
+    else:
+        _site_name = str(_site_name.netloc).split('.')[1]
 
     match _site_name:
         case 'streamja':
-            _source_css_selector = STREAMJA
+            _source_css_selector = CONFIG_INFO['streamja']
         case 'streamye':
-            _source_css_selector = STREAMYE
+            _source_css_selector = CONFIG_INFO['streamye']
         case 'streamvi':
-            _source_css_selector = STREAMVI
+            _source_css_selector = CONFIG_INFO['streamvi']
+        case 'streamwo':
+            _source_css_selector = CONFIG_INFO['streamwo']
+        case 'mixture':
+            _source_css_selector = CONFIG_INFO['mixture']
+        case 'streamff':
+            _source_css_selector = CONFIG_INFO['streamff']
+        case 'clippituser':
+            _source_css_selector = CONFIG_INFO['clippituser']
+        case 'streamgg':
+            _source_css_selector = CONFIG_INFO['streamgg']
+        case 'fodder':
+            _source_css_selector = CONFIG_INFO['fodder']
+        case _:
+            return None
 
     _video_source = None
     try:
         _video_source = _soup.select_one(_source_css_selector)['src']
+        print('_video_source', _video_source)
     except AttributeError:
         print(f'AttributeError {_url}')
-        return None
     except TypeError:
         try:
             _soup = selenium_soup(_url)
@@ -129,32 +162,14 @@ def streamable_direct_link(_soup):
 
 def get_video_source(_url):
     _soup = get_soup(_url)
-    if 'streamable' in _url:
-        return streamable_direct_link(_soup)
-    else:
-        if default_video_source(_url, _soup):
+    _site_name = urlparse(_url)
+    _site_name = str(_site_name.netloc).split('.')[0]
+    match _site_name:
+        case 'streamable':
+            return streamable_direct_link(_soup)
+        case _:
             return default_video_source(_url, _soup)
-        else:
-            return None
 
 
-app = FastAPI()
-TEMPLATES_PATH = os.path.join(CURRENT_DIR_PATH, 'templates')
-templates = Jinja2Templates(directory=TEMPLATES_PATH)
-
-
-@app.get("/")
-def form_post(request: Request):
-    result = "Type a url"
-    return templates.TemplateResponse('form.html', context={'request': request, 'result': result})
-
-
-@app.post("/")
-def form_post(request: Request, url: str = Form(...)):
-    result = get_video_source(url)
-    print(result)
-    return templates.TemplateResponse('form.html', context={'request': request, 'result': result})
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0")
+if __name__ == '__main__':
+    print('direct link library')

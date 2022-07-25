@@ -5,12 +5,51 @@
     <title>Download from stream videos</title>
   </head>
   <body>
-    <p>streamable, streamja, streamvi, streamye</p>
-    <form method="post">
-      <input type="text" name="url" value="https://streamable.com/qss9x3" />
-      <input type="submit" />
-    </form>
-
-    <p>Download form here: <a href="{{ result }}">{{ result }}</a></p>
+    <div class="row align-items-center text-center">
+      <div class="col-12">
+        <h1
+          class="mt-8 mb-8 mb-lg-12 text-center"
+          style="margin: 5px !important"
+        >
+          reddit, streamable, streamja, streamvi, streamye, streamwo, mixture, streamff, clippituser, streamgg
+        </h1>
+        <!-- End -->
+        <div
+          class="alert alert-warning"
+          role="alert"
+          id="alert"
+          style="display: none"
+        ></div>
+        <div class="d-flex flex-wrap justify-content-center" id="download-form">
+          <form method="post">
+            <p>
+              <input
+                style="width: 300px; font-size: 12pt"
+                type="text"
+                name="url"
+                onfocus="this.value=''"
+                value="https://streamff.com/v/YluVlh"
+              />
+            </p>
+            <p>
+              <input
+                type="submit"
+                class="mt-4 btn btn-primary btn-block me-4"
+                id="submitBtn"
+              >
+              </button>
+              <button
+                class="mt-4 btn btn-secondary btn-block me-4"
+                id="pasteBtn"
+              >
+                Paste from clipboard
+              </button>
+            </p>
+          </form>
+          <p>Download form here: <a href="{{ result }}">{{ result }}</a></p>
+        </p> <iframe src="{{ result }}" height="720" width="1280" title="" allow="fullscreen"></iframe> </p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

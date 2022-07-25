@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  imdb_scrapper:
+    image: 'imdb_scrapper'
+    build:
+      context: "./"
+      dockerfile: "Dockerfile"
+    volumes:
+      - "/root/programming/docker_test/database:/imdb_scrapper/database"
+      - "/root/programming/docker_test/data:/imdb_scrapper/data"
+      - "/root/programming/docker_test/chromedriver:/imdb_scrapper/chromedriver"
+      - "/root/programming/docker_test/dataclass:/imdb_scrapper/dataclass"
+  imdb_api:
+    image: 'imdb_api'
+    depends_on:
+      - imdb_scrapper
+    ports:
+      - "8000:8000"
+    build:
+      context: "./api/"
+      dockerfile: "Dockerfile"
+    volumes:
+      - "/root/programming/docker_test/database:/imdb_api/database"
+      - "/root/programming/docker_test/data:/imdb_api/data"
+      - "/root/programming/docker_test/chromedriver:/imdb_api/chromedriver"
+      - "/root/programming/docker_test/dataclass:/imdb_api/dataclass"
+volumes:
+    imdb_scrapper:
