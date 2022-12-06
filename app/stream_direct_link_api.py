@@ -13,7 +13,7 @@ templates = Jinja2Templates(directory=TEMPLATES_PATH)
 
 
 @app.get("/api/{site_name}")
-def get_direct_link(site_name: str = None, id: str = None):
+def get_direct_link(site_name=None, id=None):
 
     stream_dict = {'streamable': 'https://streamable.com/', 'streamja': 'https://streamja.com/',
                    'streamye': 'https://streamye.com/', 'streamvi': 'https://streamvi.com/watch/',
