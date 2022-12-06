@@ -125,6 +125,8 @@ def default_video_source(_url, _soup):
             _source_css_selector = CONFIG_INFO['streamgg']
         case 'fodder':
             _source_css_selector = CONFIG_INFO['fodder']
+        case 'streamin':
+            _source_css_selector = CONFIG_INFO['streamin']
         case _:
             return None
 

@@ -18,7 +18,9 @@ def get_direct_link(site_name: str = None, id: str = None):
     stream_dict = {'streamable': 'https://streamable.com/', 'streamja': 'https://streamja.com/',
                    'streamye': 'https://streamye.com/', 'streamvi': 'https://streamvi.com/watch/',
                    'streamwo': 'https://streamwo.com/file/', 'mixture': 'https://mixture.gg/v/',
-                   'streamff': 'https://streamff.com/v/', 'clippituser': 'https://clippituser.tv/c/', 'streamgg': 'https://streamgg.com/v/', 'fodder': 'https://v.fodder.gg/v/'}
+                   'streamff': 'https://streamff.com/v/', 'clippituser': 'https://clippituser.tv/c/',
+                   'streamgg': 'https://streamgg.com/v/', 'fodder': 'https://v.fodder.gg/v/',
+                   'streamin': 'https://streamin.me/v/'}
 
     if site_name in stream_dict:
         url = f'{stream_dict[site_name]}{id}'

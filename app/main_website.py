@@ -9,10 +9,14 @@ from stream_direct_link import get_video_source
 from reddit_downloader import reddit_downloader
 
 
+##########################################################################################
 app = FastAPI()
 CURRENT_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 TEMPLATES_PATH = os.path.join(CURRENT_DIR_PATH, 'templates')
 templates = Jinja2Templates(directory=TEMPLATES_PATH)
+LOCAL_HOST = '127.0.0.1'
+HOST = '0.0.0.0'
+##########################################################################################
 
 
 @app.get("/")
@@ -34,4 +38,4 @@ def form_post(request: Request, url: str = Form(...)):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host=HOST, port=8000)
