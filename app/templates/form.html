@@ -7,12 +7,14 @@
   <body>
     <div class="row align-items-center text-center">
       <div class="col-12">
-        <h1
+        <h2
           class="mt-8 mb-8 mb-lg-12 text-center"
           style="margin: 5px !important"
         >
-          reddit, streamable, streamja, streamvi, streamye, streamwo, mixture, streamff, clippituser, streamgg
-        </h1>
+          reddit, streamable, streamja, streamvi, 
+		  streamye, streamwo, mixture, streamff, 
+		  clippituser, streamgg, fodder, streamin
+        </h2>
         <!-- End -->
         <div
           class="alert alert-warning"
@@ -47,7 +49,40 @@
             </p>
           </form>
           <p>Download form here: <a href="{{ result }}">{{ result }}</a></p>
-        </p> <iframe src="{{ result }}" height="720" width="1280" title="" allow="fullscreen"></iframe> </p>
+          
+        <!-- </p> <iframe src="{{ result }}" height="720" width="1280" title="" allow="fullscreen"></iframe> </p>-->
+        <table>
+          <tr>
+            <th>Site</th>
+            <th>URL</th>
+            <th>Docs URL</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>Stream direct link</td>
+            <td>http://104.156.140.246:8888/api</td>
+            <td>http://104.156.140.246:8888/docs</td>
+            <td>api to download from streaming services like, streamable, streamff...</td>
+          </tr>
+          <tr>
+            <td>Reddit goals API</td>
+            <td>http://104.156.140.246:7777/</td>
+            <td>http://104.156.140.246:7777/docs</td>
+            <td>goals scrapped from r/soccer with direct links</td>
+          </tr>
+          <tr>
+            <td>IMDB API</td>
+            <td>http://104.156.140.246:8008/</td>
+            <td>http://104.156.140.246:8008/docs</td>
+            <td>IMDB database</td>
+          </tr>
+          <tr>
+            <td>FlareSolverr</td>
+            <td>http://104.156.140.246:8191/</td>
+            <td>https://github.com/FlareSolverr/FlareSolverr</td>
+            <td>Link to my flaresolver service</td>
+          </tr>
+        </table> 
         </div>
       </div>
     </div>

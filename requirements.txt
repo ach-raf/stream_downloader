@@ -6,3 +6,5 @@ fastapi
 Jinja2
 python-multipart
 uvicorn
+databases
+aiosqlite
