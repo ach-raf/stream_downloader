@@ -4,13 +4,15 @@ import urllib.parse
 import uvicorn
 from fastapi import FastAPI, Request, Form, Query
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from stream_direct_link import get_video_source
 from reddit_downloader import reddit_downloader
+from pathlib import Path
 
 
 ##########################################################################################
-app = FastAPI()
+
 CURRENT_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 TEMPLATES_PATH = os.path.join(CURRENT_DIR_PATH, 'templates')
 templates = Jinja2Templates(directory=TEMPLATES_PATH)
@@ -18,11 +20,19 @@ LOCAL_HOST = '127.0.0.1'
 HOST = '0.0.0.0'
 ##########################################################################################
 
+app = FastAPI()
+
+app.mount(
+    "/static",
+    StaticFiles(directory=Path(__file__).parent.absolute() / "static"),
+    name="static",
+)
+
 
 @app.get("/")
 def form_post(request: Request):
     result = "Type a url"
-    return templates.TemplateResponse('form.html', context={'request': request, 'result': result})
+    return templates.TemplateResponse('index.html', context={'request': request, 'result': result})
 
 
 @app.post("/")
@@ -34,7 +44,7 @@ def form_post(request: Request, url: str = Form(...)):
     else:
         result = get_video_source(url)
         print(result)
-        return templates.TemplateResponse('form.html', context={'request': request, 'result': result})
+        return templates.TemplateResponse('index.html', context={'request': request, 'result': result})
 
 
 if __name__ == "__main__":

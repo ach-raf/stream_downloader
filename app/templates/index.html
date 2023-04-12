@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <!-- style css -->
+    <link
+      href="{{ url_for('static', path='/css/style.css') }}"
+      type="text/css"
+      rel="stylesheet"
+    />
+    <!-- bootstrap css -->
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  </head>
+  <body>
+
+    <div class="container mt-5" id="download-form">
+      <h1>Stream Donwload</h1>
+      <form method="post">
+        <div class="form-group">
+          <label for="link-input">Enter a link:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="link-input"
+            name="url"
+            placeholder="https://streamff.com/v/YluVlh"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+      </form>
+      <p>Download form here: <a href="{{ result }}">{{ result }}</a></p>
+      <div class="mt-5">
+        <h2>Available sites to download from:</h2>
+        <ul>
+          <li>Reddit</li>
+          <li>Streamable</li>
+          <li>Streamja</li>
+          <li>Streamvi</li>
+          <li>Streamye</li>
+          <li>Streamwo</li>
+          <li>Mixture</li>
+          <li>Streamff</li>
+          <li>Clippituser</li>
+          <li>Streamgg</li>
+          <li>Fodder</li>
+          <li>Streamin</li>
+        </ul>
+      </div>
+      <table>
+        <tr>
+          <th>Site</th>
+          <th>URL</th>
+          <th>Docs URL</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Stream direct link</td>
+          <td><a href="http://213.59.123.189:8888/api">API</a></td>
+          <td><a href="http://213.59.123.189:8888/docs">Docs</a></td>
+          <td>api to download from streaming services like, streamable, streamff...</td>
+        </tr>
+        <tr>
+          <td>Reddit goals API</td>
+          <td><a href="http://213.59.123.189:7777/">API</a></td>
+          <td><a href="http://213.59.123.189:7777/docs">Docs</a></td>
+          <td>goals scrapped from r/soccer with direct links</td>
+        </tr>
+        <tr>
+          <td>IMDB API</td>
+          <td><a href="http://213.59.123.189:8008/">API</a></td>
+          <td><a href="http://213.59.123.189:8008/docs">Docs</a></td>
+          <td>IMDB database</td>
+        </tr>
+        <tr>
+          <td>FlareSolverr</td>
+          <td><a href="http://213.59.123.189:8191/">API</a></td>
+          <td><a href="http://213.59.123.189:8191/v1">Request URL</a></td>
+          <td><a href="https://github.com/FlareSolverr/FlareSolverr">GitHub</a></td>
+        </tr>
+      </table> 
+    </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css"></script>
+  </div>
+  </body>
+</html>

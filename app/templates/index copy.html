@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+    <!-- site metas -->
+    <title>Eflyer</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!-- bootstrap css -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css"
+      rel="stylesheet"
+    />
+    <!-- style css -->
+    <link
+      href="{{ url_for('static', path='/css/style.css') }}"
+      type="text/css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <td style="background: #b3aeb5">
+      <div class="form-group text-center">
+        <div class="input-group" style="margin: auto" id="download-form">
+          <form method="post">
+            <input
+              style="width: 300px; font-size: 12pt"
+              type="text"
+              name="url"
+              onfocus="this.value=''"
+              class="form-control"
+              placeholder="Paste your link here"
+            />
+            <div class="input-group-append">
+              <button
+                id="submitBtn"
+                class="btn btn-secondary"
+                type="submit"
+                style="background-color: #f26522; border-color: #f26522"
+              >
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </td>
+  </body>
+</html>
